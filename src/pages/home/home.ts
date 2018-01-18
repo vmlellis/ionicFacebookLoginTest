@@ -9,13 +9,15 @@ import { Facebook } from '@ionic-native/facebook';
 export class HomePage {
   isLoggedIn:boolean = false;
   user: any;
+  data: any;
 
   constructor(public navCtrl: NavController, private fb: Facebook) {
     fb.getLoginStatus()
       .then(res => {
+        console.log(res);
         console.log(res.status);
         if(res.status === "connect") {
-          this.isLoggedIn = true;
+          this.logout();
         } else {
           this.isLoggedIn = false;
         }
@@ -24,10 +26,10 @@ export class HomePage {
   }
 
   login() {
-    this.fb.login(['public_profile', 'user_friends', 'email'])
+    this.fb.login(['public_profile', 'email'])
       .then(res => {
+        console.log(res);
         if(res.status === "connected") {
-          this.isLoggedIn = true;
           this.getUserDetail(res.authResponse.userID);
         } else {
           this.isLoggedIn = false;
@@ -43,10 +45,11 @@ export class HomePage {
   }
 
   getUserDetail(userid) {
-    this.fb.api("/"+userid+"/?fields=id,email,name,picture,gender",["public_profile"])
+    this.fb.api("/"+userid+"/?fields=id,email,gender,first_name,last_name",["public_profile"])
       .then(res => {
         console.log(res);
         this.user = res;
+        this.isLoggedIn = true;
       })
       .catch(e => {
         console.log(e);

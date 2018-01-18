@@ -10,13 +10,13 @@
   <h1>Facebook</h1>
 
   <div *ngIf="isLoggedIn; else facebookLogin">
-    <h2>Hi, {{users.name}} ({{users.email}})</h2>
+    <h2>Hi, {{user.first_name}} {{user.last_name}} ({{user.email}})</h2>
     <p>
-      Gender: {{users.gender}}
+      Gender: {{user.gender}}
     </p>
-    <p>
-      <img src="{{users.picture.data.url}}" width="100" alt="{{users.name}}" />
-    </p>
+    <!--<p>
+      <img src="{{user.picture.data.url}}" width="100" alt="{{user.name}}" />
+    </p> -->
     <p>
       <button ion-button icon-right (click)="logout()">
         Logout
